@@ -1,8 +1,8 @@
 class ChatService {
     private val chats = mutableListOf<Chat>()
 
-    fun createChat(paricipant: String):Chat {
-        val chat = Chat(chats.size + 1, paricipant)
+    fun createChat(participant: String):Chat {
+        val chat = Chat(chats.size + 1, participant)
         chats.add(chat)
         return chat
     }
