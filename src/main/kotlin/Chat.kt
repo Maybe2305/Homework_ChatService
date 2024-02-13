@@ -10,17 +10,17 @@ class Chat(
     }
 
     fun deleteMessage(idMessage: Int) {
-        val message = messages.find { it.idMessage == idMessage }
-        messages.remove(message)
+       messages.removeIf { it.idMessage == idMessage }
     }
     fun getMessages(count: Int): List<Message> {
-        val unreadMessages = messages.filter { !it.isRead }
-        val selectedMessages = if (unreadMessages.isNotEmpty()) {
-            unreadMessages.take(count)
-        } else {
-            messages.takeLast(count)
+        val selectedMessages = if (messages.none { !it.isRead }) messages.takeLast(count)
+        else {
+            messages.asSequence()
+                .filter { !it.isRead }
+                .take(count)
+                .onEach { it.isRead = true }
+                .toList()
         }
-        selectedMessages.forEach { it.isRead = true }
         return selectedMessages
     }
     fun getLastMessage():String {
